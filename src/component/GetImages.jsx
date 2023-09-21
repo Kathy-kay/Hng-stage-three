@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import Search from "./SearchBar";
+import SearchBar from "./SearchBar";
 
 const GetImages = () => {
   const [images, setImages] = useState([]);
@@ -75,7 +75,7 @@ const GetImages = () => {
   return (
     <div className="gallery-container">
       <DragDropContext onDragEnd={handleDragDrop}>
-        <Search query={query} setQuery={setQuery} onSearch={handleSearch} />
+        <SearchBar query={query} setQuery={setQuery} onSearch={handleSearch} />
         {loading ? (
           <h1>Loading...</h1>
         ) : (
