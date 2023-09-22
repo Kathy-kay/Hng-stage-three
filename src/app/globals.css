@@ -79,6 +79,7 @@ nav button{
   background-color: #D80032;
   color: #fff;
   font-size: 20px;
+  cursor: pointer;
 }
 .gallery-container{
   width: 100%;

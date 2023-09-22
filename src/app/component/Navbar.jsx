@@ -1,4 +1,5 @@
 import React from "react";
+import { signOut } from "next-auth/react";
 
 const Navbar = () => {
   return (
@@ -6,7 +7,7 @@ const Navbar = () => {
       <div className="logo">
         <h1>D&D</h1>
       </div>
-      <button>SignOut</button>
+      <button onClick={() => signOut()}>SignOut</button>
     </nav>
   );
 };
