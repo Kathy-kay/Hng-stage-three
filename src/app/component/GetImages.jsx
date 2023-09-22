@@ -32,24 +32,16 @@ const GetImages = () => {
   }, []);
 
   const handleDragDrop = (results) => {
-    const { source, destination, type } = results;
+    const { source, destination } = results;
 
     if (!destination) return;
+    if (source.droppableId !== destination.droppableId) return;
 
-    if (
-      source.droppableId === destination.droppableId &&
-      source.index === destination.index
-    )
-      return;
+    const newImages = [...images];
+    const [reorderedImage] = newImages.splice(source.index, 1);
+    newImages.splice(destination.index, 0, reorderedImage);
 
-    if (type === "DEFAULT") {
-      const reorderdImages = [...images];
-      const sourceIndex = source.index;
-      const destinationIndex = destination.index;
-
-      const [removedImages] = reorderdImages.splice(sourceIndex, 1);
-      reorderdImages.splice(destinationIndex, 0, removedImages);
-    }
+    setImages(newImages);
   };
 
   const handleSearch = async () => {
@@ -76,46 +68,42 @@ const GetImages = () => {
     <div className="gallery-container">
       <DragDropContext onDragEnd={handleDragDrop}>
         <SearchBar query={query} setQuery={setQuery} onSearch={handleSearch} />
-        {loading ? (
-          <h1>Loading...</h1>
-        ) : (
-          <Droppable droppableId="ROOT">
-            {(provided) => (
-              <div
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                className="list"
-              >
-                {images.map((item, index) => (
-                  <Draggable draggableId={item.id} key={item.id} index={index}>
-                    {(provided) => (
-                      <div
-                        className="image-container"
-                        {...provided.dragHandleProps}
-                        {...provided.draggableProps}
-                        ref={provided.innerRef}
-                      >
-                        <Image
-                          src={item.urls.full}
-                          alt={item.user.name}
-                          loading="lazy"
-                          width={300}
-                          height={400}
-                          style={{
-                            objectFit: "cover",
-                            marginBottom: "30px",
-                            cursor: "pointer",
-                          }}
-                        />
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        )}
+        <Droppable droppableId="ROOT">
+          {(provided) => (
+            <div
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              className="list"
+            >
+              {images.map((item, index) => (
+                <Draggable draggableId={item.id} key={item.id} index={index}>
+                  {(provided) => (
+                    <div
+                      className="image-container"
+                      {...provided.dragHandleProps}
+                      {...provided.draggableProps}
+                      ref={provided.innerRef}
+                    >
+                      <Image
+                        src={item.urls.full}
+                        alt={item.user.name}
+                        loading="lazy"
+                        width={300}
+                        height={400}
+                        style={{
+                          objectFit: "cover",
+                          marginBottom: "30px",
+                          cursor: "pointer",
+                        }}
+                      />
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
       </DragDropContext>
     </div>
   );
