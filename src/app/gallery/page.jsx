@@ -1,6 +1,6 @@
-import Navbar from "@/component/Navbar";
 import React from "react";
-import GetImages from "@/component/GetImages";
+import GetImages from "../component/GetImages";
+import Navbar from "../component/Navbar";
 
 const page = () => {
   return (
